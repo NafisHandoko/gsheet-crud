@@ -28,6 +28,8 @@ function closeModal(){
 window.onclick = function(event) {
   if (event.target == addmodal) {
     addmodal.style.display = "none";
+  }
+  if (event.target == updatemodal) {
     updatemodal.style.display = "none";
   }
 }
