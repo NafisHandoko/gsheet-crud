@@ -26,7 +26,7 @@ function closeModal(){
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if ((event.target == addmodal) or (event.target == updatemodal)) {
+  if ((event.target == addmodal) || (event.target == updatemodal)) {
     addmodal.style.display = "none";
     updatemodal.style.display = "none";
   }
