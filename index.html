@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/tailwindcss.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>CRUDSheet</title>
+</head>
+<body>
+    <section class="flex flex-col items-center justify-center">
+        <div class="container flex flex-col min-h-screen py-6 w-full px-5 md:px-20">
+			<h1 class="font-bold text-2xl">CRUD based Contact Book with Google Sheet API</h1>
+
+            <div class="flex flex-row w-full justify-center items-center py-3">
+                <div class="flex flex-row text-white w-1/2">
+                    <button id="add-btn" class="flex bg-blue-500 px-4 py-2 mx-2 rounded-lg text-2xl hover:shadow-md hover:bg-blue-700 items-center justify-center"><ion-icon name="add"></ion-icon></button>
+                </div>
+                <div class="flex flex-row text-white w-1/2 justify-end">
+    				<button id="signout_button" class="text-center bg-red-500 px-4 py-2 mx-2 rounded-lg text-md hover:shadow-md hover:bg-red-700" style="display: none;">Sign Out</button>
+                </div>
+            </div>
+
+			<!--table goes here-->
+            <div class="flex flex-col py-3">
+                <div id="card" class="rounded-xl shadow-xl p-5 bg-blue-200">
+                    <div class="">
+                        <table class="w-full flex flex-row flex-no-wrap bg-white rounded-lg overflow-scroll sm:shadow-lg my-5">
+                            <thead class="text-white bg-blue-400" id="tableHead">
+                                <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                                    <th class="p-3 text-left"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="flex-1 sm:flex-none" id="tableBody">
+                                <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0" id="tableRow">
+									<td class="border-grey-light border hover:bg-gray-100 p-3" id="tdMsg"></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+			<div class="flex flex-col text-blue-400 mt-auto">
+				<div class="flex flex-row justify-center text-xl">
+					<a href="https://github.com/NafisHandoko/"><ion-icon class="p-1" name="logo-github"></ion-icon></a>
+					<a href="https://twitter.com/handokonafis"><ion-icon class="p-1" name="logo-twitter"></ion-icon></a>
+					<a href="https://wa.me/6281332079137"><ion-icon class="p-1" name="logo-whatsapp"></ion-icon></a>
+					<a href="https://www.instagram.com/nafishandoko/"><ion-icon class="p-1" name="logo-instagram"></ion-icon></a>
+				</div>
+				<p class="py-2 font-medium text-center">Copyright 2021 | Nafis Arinda Rizky PH</p>
+			</div>
+        </div>
+		
+    </section>
+
+
+    <!--modal-->
+    <div id="add-modal" class="modal">
+        <div class="modal-content rounded-xl w-4/5 md:w-2/5">
+			<div class="modal-header flex flex-row pb-1">
+				<h1 class="font-bold text-2xl w-11/12">Add Data</h1>
+				<span class="close w-1/12" onclick="closeModal();">&times;</span>
+			</div>
+			<div class="modal-body flex flex-col py-1">
+				<div class="flex flex-col my-2">
+					<label>Username</label>
+					<input type="text" id="username" class="bg-gray-200 p-2" placeholder="John Doe">
+				</div>
+				<div class="flex flex-col my-2">
+					<label>Email</label>
+					<input type="text" id="email" class="bg-gray-200 p-2" placeholder="example@mail.com">
+				</div>
+			</div>
+			<div class="modal-footer pt-1 flex flex-row justify-end">
+				<button class="bg-blue-400 text-white px-3 py-2 rounded-md" onclick="addSheet();">Add</button>
+			</div>
+        </div>
+    </div>
+
+	<div id="signin-modal" class="modal">
+		<div class="modal-content rounded-xl w-4/5 md:w-2/5">
+			<div class="modal-body flex flex-col text-center justify-center">
+				<div class="flex flex-col py-2">
+					<h1 class="font-bold text-xl">You haven't signed in yet</h1>
+					<h3 class="text-sm text-blue-400">Please sign in to continue!</h3>
+				</div>
+				<div class="flex flex-col py-2 items-center">
+					<button id="authorize_button" class="flex flex-row bg-blue-500 text-white font-bold px-2 py-1 rounded-full justify-center items-center w-4/6">
+						<div class="w-1/6"><ion-icon name="logo-google"></ion-icon></div>
+						<div class="w-5/6">Sign In with Google</div>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="update-modal" class="modal">
+		<div class="modal-content rounded-xl w-4/5 md:w-2/5">
+			<div class="modal-header flex flex-row pb-1">
+				<h1 class="font-bold text-2xl w-11/12">Update Data</h1>
+				<span class="close w-1/12" onclick="closeModal();">&times;</span>
+			</div>
+			<div class="modal-body flex flex-col py-1">
+				<div class="flex flex-col my-2">
+					<label>Username</label>
+					<input type="text" id="usernameUpdate" class="bg-gray-200 p-2">
+				</div>
+				<div class="flex flex-col my-2">
+					<label>Email</label>
+					<input type="text" id="emailUpdate" class="bg-gray-200 p-2">
+				</div>
+				<input type="hidden" id="updateId">
+			</div>
+			<div class="modal-footer pt-1 flex flex-row justify-end">
+				<button class="bg-green-400 text-white px-3 py-2 rounded-md" onclick="updateSheet();">Update</button>
+			</div>
+        </div>
+	</div>
+
+    <script type="text/javascript" src="js/script.js"></script>
+
+	<!--Google API Client Library-->
+	<script async defer src="https://apis.google.com/js/api.js"
+		onload="this.onload=function(){};handleClientLoad()"
+		onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  	</script>
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+</body>
+</html>
