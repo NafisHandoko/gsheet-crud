@@ -26,10 +26,8 @@ function closeModal(){
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == addmodal) {
+  if ((event.target == addmodal) or (event.target == updatemodal)) {
     addmodal.style.display = "none";
-  }
-  if (event.target == updatemodal) {
     updatemodal.style.display = "none";
   }
 }
@@ -136,28 +134,28 @@ function handleSignoutClick(event) {
 function readSheet() {
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: 'Sheet1!A2:B',
+    range: 'Sheet1!A1:B',
   }).then(function(response) {
     var range = response.result;
     if (range.values.length > 0) {
       var sheetHeader = "";
       var sheetData = "";
-      for (i = 0; i < range.values.length; i++) {
+      for (i = 1; i < range.values.length+1; i++) {
         var row = range.values[i];
         if(row.length > 0){
           // Print columns A and E, which correspond to indices 0 and 4.
           sheetHeader = sheetHeader + '<tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">'+
-                          '<th class="p-3 text-left">Name</th>'+
-                          '<th class="p-3 text-left">Email</th>'+
+                          '<th class="p-3 text-left">'+escapeHTML(range.values[0][0])+'</th>'+
+                          '<th class="p-3 text-left">'+escapeHTML(range.values[0][1])+'</th>'+
                           '<th class="p-3 text-left" width="110px">Actions</th>'+
                         '</tr>';
 
           sheetData = sheetData + '<tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">'+
-                        '<td class="border-grey-light border hover:bg-gray-100 p-3" id="name'+(i+2)+'">'+escapeHTML(row[0])+'</td>'+
-                        '<td class="border-grey-light border hover:bg-gray-100 p-3 truncate" id="email'+(i+2)+'">'+escapeHTML(row[1])+'</td>'+
-                        '<td class="md:text-2xl border-grey-light border hover:bg-gray-100 p-3 hover:font-medium cursor-pointer" id="'+(i+2)+
-                          '"><ion-icon name="trash" class="px-1 text-red-400 hover:text-red-600" id="trash'+(i+2)+'"></ion-icon>'+
-                          '<ion-icon name="pencil" class="px-1 text-green-400 hover:text-green-600" id="pencil'+(i+2)+'"></ion-icon>'+
+                        '<td class="border-grey-light border hover:bg-gray-100 p-3" id="name'+(i+1)+'">'+escapeHTML(row[0])+'</td>'+
+                        '<td class="border-grey-light border hover:bg-gray-100 p-3 truncate" id="email'+(i+1)+'">'+escapeHTML(row[1])+'</td>'+
+                        '<td class="md:text-2xl border-grey-light border hover:bg-gray-100 p-3 hover:font-medium cursor-pointer" id="'+(i+1)+
+                          '"><ion-icon name="trash" class="px-1 text-red-400 hover:text-red-600" id="trash'+(i+1)+'"></ion-icon>'+
+                          '<ion-icon name="pencil" class="px-1 text-green-400 hover:text-green-600" id="pencil'+(i+1)+'"></ion-icon>'+
                         '</td>'+
                       '</tr>';
 
@@ -165,11 +163,11 @@ function readSheet() {
       }
       document.getElementById('tableHead').innerHTML = sheetHeader;
       document.getElementById('tableBody').innerHTML = sheetData;
-      for(i = 0; i < range.values.length; i++){
+      for(i = 1; i < range.values.length+1; i++){
         var row = range.values[i];
         if(row.length > 0){
-          var trash = document.getElementById("trash"+(i+2));
-          var pencil = document.getElementById("pencil"+(i+2));
+          var trash = document.getElementById("trash"+(i+1));
+          var pencil = document.getElementById("pencil"+(i+1));
           trash.setAttribute("onclick","deleteSheet(this.parentNode.id)");
           pencil.setAttribute("onclick","updatemodalOpen(this.parentNode.id);");
         }
