@@ -137,11 +137,13 @@ function readSheet() {
     range: 'Sheet1!A1:B',
   }).then(function(response) {
     var range = response.result;
+    console.log(range);
     if (range.values.length > 0) {
       var sheetHeader = "";
       var sheetData = "";
       for (i = 1; i < (range.values.length)+1; i++) {
         var row = range.values[i];
+        console.log(row);
         if(row.length > 0){
           // Print columns A and E, which correspond to indices 0 and 4.
           sheetHeader = sheetHeader + '<tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">'+
