@@ -140,7 +140,7 @@ function readSheet() {
     if (range.values.length > 0) {
       var sheetHeader = "";
       var sheetData = "";
-      for (i = 1; i < range.values.length+1; i++) {
+      for (i = 1; i < (range.values.length)+1; i++) {
         var row = range.values[i];
         if(row.length > 0){
           // Print columns A and E, which correspond to indices 0 and 4.
@@ -163,7 +163,7 @@ function readSheet() {
       }
       document.getElementById('tableHead').innerHTML = sheetHeader;
       document.getElementById('tableBody').innerHTML = sheetData;
-      for(i = 1; i < range.values.length+1; i++){
+      for(i = 1; i < (range.values.length)+1; i++){
         var row = range.values[i];
         if(row.length > 0){
           var trash = document.getElementById("trash"+(i+1));
